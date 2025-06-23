@@ -1,5 +1,6 @@
 package com.sparta.java_02.domain.purchase.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sparta.java_02.domain.product.entity.Product;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -48,16 +50,34 @@ public class PurchaseProduct {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
 
-  @JoinColumn(name = "purchase", nullable = false)
+  @JsonBackReference
+  @JoinColumn(name = "purchase_id", nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
   Purchase purchase;
 
-  @JoinColumn(name = "product", nullable = false)
+  @JsonBackReference
+  @JoinColumn(name = "product_id", nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
   Product product;
 
+  @Column(nullable = false)
+  Integer quantity;
+
+  @Column(nullable = false)
+  BigDecimal price;
   @CreationTimestamp
   @Column(nullable = false, updatable = false)
   LocalDateTime createdAt;
 
+  @CreationTimestamp
+  @Column(nullable = false)
+  LocalDateTime updatedAt;
+
+  public PurchaseProduct(Purchase purchase, Product product, Integer quantity, BigDecimal price) {
+    this.purchase = purchase;
+    this.product = product;
+    this.quantity = quantity;
+    this.price = price;
+  }
+  
 }

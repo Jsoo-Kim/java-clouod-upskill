@@ -38,22 +38,23 @@ public class Category {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
 
+  @Column(nullable = false)
   String name;
 
   /**
    * 상위 카테고리 - LAZY 로딩으로 필요 시에만 조회 - @JsonBackReference: Jackson이 이 필드를 직렬화(객체 -> JSON)하지 않도록 하여 순환
    * 참조를 끊습니다.
    */
+  @JsonBackReference
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "parent_id")
-  @JsonBackReference
   Category parent;
 
-  @CreationTimestamp
   @Column(nullable = false, updatable = false)
+  @CreationTimestamp
   LocalDateTime createdAt;
 
-  @Column
+  @Column(nullable = false)
   @UpdateTimestamp
   LocalDateTime updatedAt;
 

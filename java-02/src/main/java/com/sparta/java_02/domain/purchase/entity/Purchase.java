@@ -1,5 +1,6 @@
 package com.sparta.java_02.domain.purchase.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sparta.java_02.common.enums.PurchaseStatus;
 import com.sparta.java_02.domain.user.entity.User;
 import jakarta.persistence.Column;
@@ -17,8 +18,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.apache.commons.lang3.ObjectUtils;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -26,6 +29,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Table
 @Entity
+//@Data  // 필드 전체에 getter, setter를 만들어줌. 부가적으로 불필요한 것들도 딸려오므로 매우 제한적으로 사용할 것
+@Getter  // Getter는 클래스에, Setter는 제한적으로 필요한 필드에만(웬만해선 롬복으로 하지 말고 직접 메소드를 만들 것!)
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
@@ -36,6 +41,7 @@ public class Purchase {  // 주문
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
 
+  @JsonBackReference
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
   User user;
@@ -66,4 +72,11 @@ public class Purchase {  // 주문
     this.totalPrice = totalPrice;
     this.status = status;
   }
+
+  public void setStatus(PurchaseStatus status) {
+    if (!ObjectUtils.isEmpty(status)) {
+      this.status = status;
+    }
+  }
+
 }
