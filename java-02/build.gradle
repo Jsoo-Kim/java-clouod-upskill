@@ -25,6 +25,7 @@ repositories {
 
 dependencies {
     // spring-boot 가 붙은 건 수많은 게 응집되어 있음. 옛날에 xml로 다 설정해야 했던 것들!
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     // jpa가 있으면 DB부터 찾으려고 함! DB 설정 필수
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -34,6 +35,8 @@ dependencies {
     }
     // Undertow 의존성 추가
     implementation 'org.springframework.boot:spring-boot-starter-undertow'
+    // Querydsl 의존성 추가
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
     // Swagger 를 위해 의존성 추가
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
     // Flyway는 데이터베이스의 스키마 변경 이력을 코드로 관리하고, 애플리케이션 실행 시 정해진 순서에 따라 자동으로 DB에 반영(마이그레이션)해주는 도구
@@ -49,9 +52,11 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
 
     annotationProcessor 'org.projectlombok:lombok'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     // runtimeoOnly 아래에, 그리고 웬만하면 lombok 아래에 있어야 함!
-
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -59,4 +64,8 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks.named('compileJava') {
+    options.annotationProcessorPath = configurations.annotationProcessor
 }

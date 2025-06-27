@@ -65,7 +65,11 @@ public class User {
   // 빈 생성자가 있는 상태에서 클래스에 @Builder를 달면 에러가 남
   // @Builder를 클래스에 달면 클래스에 있는 모든 필드가 다 있는 생성자를 원함
   @Builder
-  public User(String name, String email, String passwordHash) {
+  public User(
+      String name,
+      String email,
+      String passwordHash
+  ) {
     this.name = name;
     this.email = email;
     this.passwordHash = passwordHash;

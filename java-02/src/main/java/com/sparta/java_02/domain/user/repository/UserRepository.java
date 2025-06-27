@@ -19,8 +19,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
   long countByName(String name);
 
   Optional<User> findByNameAndEmail(String name, String email);
-  // 위와 정확히 동일한 결과 반환!! fetch join 필요한 거 아니면 최대한 @Query 사용 피할 것
 
+  // 위의 findByNameAndEmail 과 정확히 동일한 결과 반환!! fetch join 필요한 거 아니면 최대한 @Query 사용 피할 것
   @Query("SELECT u FROM User u WHERE u.email = :email")
   Optional<User> findUserByEmail(@Param("email") String email);
 
