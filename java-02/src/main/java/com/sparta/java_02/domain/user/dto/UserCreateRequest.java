@@ -18,6 +18,6 @@ public class UserCreateRequest {  // Jackson이 이걸 객체로 변환해줌!
   String email;
 
   @Pattern(regexp = "^\\d{10}$", message = "Password must be 10 digits")
-  String password;
+  String passwordHash;
 
 }

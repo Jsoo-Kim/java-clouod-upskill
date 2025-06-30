@@ -1,5 +1,6 @@
 package com.sparta.java_02.domain.user.controller;
 
+import com.sparta.java_02.common.annotation.Loggable;
 import com.sparta.java_02.common.response.ApiResponse;
 import com.sparta.java_02.domain.user.dto.UserCreateRequest;
 import com.sparta.java_02.domain.user.dto.UserResponse;
@@ -50,6 +51,7 @@ public class UserController {
 //        .body(UserSearchResponse.builder().build()); // ResponseEntity에 들어가면 Builder 패턴을 씀
 //  } // status 코드도 이렇게 쓰지 말고 ENUM이나 static으로 명시적으로 빼 주는 게 좋음
 
+  @Loggable
   @GetMapping
   public ApiResponse<List<UserSearchResponse>> findAll() {
     return ApiResponse.success(userService.searchUser());
