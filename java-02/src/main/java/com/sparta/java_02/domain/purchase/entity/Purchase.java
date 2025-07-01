@@ -2,6 +2,8 @@ package com.sparta.java_02.domain.purchase.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sparta.java_02.common.enums.PurchaseStatus;
+import com.sparta.java_02.common.exception.ServiceException;
+import com.sparta.java_02.common.exception.ServiceExceptionCode;
 import com.sparta.java_02.domain.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -77,6 +79,19 @@ public class Purchase {  // 주문
     if (!ObjectUtils.isEmpty(status)) {
       this.status = status;
     }
+  }
+
+  public void setTotalPrice(BigDecimal totalPrice) {
+    if (totalPrice.compareTo(BigDecimal.ZERO) >= 0) {
+      this.totalPrice = totalPrice;
+    }
+  }
+
+  public void cancelPurchase() {
+    if (this.status != PurchaseStatus.PENDING) {
+      throw new ServiceException(ServiceExceptionCode.CANNOT_CANCEL);
+    }
+    this.status = PurchaseStatus.CANCELED;
   }
 
 }

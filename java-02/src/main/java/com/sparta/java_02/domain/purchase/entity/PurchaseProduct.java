@@ -14,6 +14,8 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
@@ -39,6 +41,7 @@ import org.hibernate.annotations.DynamicUpdate;
  */
 @Table
 @Entity
+@Getter
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
@@ -73,11 +76,12 @@ public class PurchaseProduct {
   @Column(nullable = false)
   LocalDateTime updatedAt;
 
+  @Builder
   public PurchaseProduct(Purchase purchase, Product product, Integer quantity, BigDecimal price) {
     this.purchase = purchase;
     this.product = product;
     this.quantity = quantity;
     this.price = price;
   }
-  
+
 }
