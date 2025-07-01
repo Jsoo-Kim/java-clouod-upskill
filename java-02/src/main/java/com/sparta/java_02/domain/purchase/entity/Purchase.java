@@ -2,8 +2,6 @@ package com.sparta.java_02.domain.purchase.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sparta.java_02.common.enums.PurchaseStatus;
-import com.sparta.java_02.common.exception.ServiceException;
-import com.sparta.java_02.common.exception.ServiceExceptionCode;
 import com.sparta.java_02.domain.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -87,11 +85,11 @@ public class Purchase {  // 주문
     }
   }
 
-  public void cancelPurchase() {
-    if (this.status != PurchaseStatus.PENDING) {
-      throw new ServiceException(ServiceExceptionCode.CANNOT_CANCEL);
-    }
-    this.status = PurchaseStatus.CANCELED;
-  }
+//  public void cancelPurchase() { // 에러 처리까지 엔티티에서 하는 건 좋지 않다!
+//    if (this.status != PurchaseStatus.PENDING) {
+//      throw new ServiceException(ServiceExceptionCode.CANNOT_CANCEL);
+//    }
+//    this.status = PurchaseStatus.CANCELED;
+//  }
 
 }
