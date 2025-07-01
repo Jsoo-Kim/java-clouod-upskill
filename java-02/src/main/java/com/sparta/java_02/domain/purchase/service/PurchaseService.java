@@ -28,22 +28,31 @@ public class PurchaseService {
   private final ProductRepository productRepository;
   private final UserRepository userRepository;
 
+
   @Transactional
   public Purchase purchase(PurchaseRequest request) {
-    // 1. 구매 객체 생성
     User user = userRepository.findById(request.getUserId()).orElseThrow();
-    Purchase purchase = purchaseRepository.save(Purchase.builder().user(user).build());
+    Purchase purchase = createAndSavePurchase(user);
+    List<PurchaseProduct> purchaseProducts = createAndProcessPurchaseProducts(request, purchase);
+    BigDecimal totalPrice = calculateTotalPrice(purchaseProducts);
 
-    BigDecimal totalPrice = BigDecimal.ZERO;
+    purchase.setTotalPrice(totalPrice);
+    return purchase;
+  }
+
+  private Purchase createAndSavePurchase(User user) {
+    return purchaseRepository.save(Purchase.builder().user(user).build());
+  }
+
+  private List<PurchaseProduct> createAndProcessPurchaseProducts(PurchaseRequest request,
+      Purchase purchase) {
     List<PurchaseProduct> purchaseProducts = new ArrayList<>();
 
     // 2. 구매 상품 처리 (재고 확인, 아이템 생성, 가격 계산)
     for (PurchaseProductRequest itemRequest : request.getPurchaseItems()) {
       Product product = productRepository.findById(itemRequest.getProductId()).orElseThrow();
 
-      if (itemRequest.getQuantity() > product.getStock()) {
-        throw new ServiceException(ServiceExceptionCode.OUT_OF_STOCK_PRODUCT);
-      }
+      validateStock(itemRequest, product);
 
       product.reduceStock(itemRequest.getQuantity());
       PurchaseProduct purchaseProduct = PurchaseProduct.builder()
@@ -54,14 +63,22 @@ public class PurchaseService {
           .build();
 
       purchaseProducts.add(purchaseProduct);
-      totalPrice = totalPrice.add(
-          product.getPrice().multiply(BigDecimal.valueOf(itemRequest.getQuantity())));
     }
-
-    // 3. 구매 정보 업데이트 및 저장
-    purchase.setTotalPrice(totalPrice);
     purchaseProductRepository.saveAll(purchaseProducts);
-    return purchase;
+    return purchaseProducts;
+  }
+
+  private static void validateStock(PurchaseProductRequest itemRequest, Product product) {
+    if (itemRequest.getQuantity() > product.getStock()) {
+      throw new ServiceException(ServiceExceptionCode.OUT_OF_STOCK_PRODUCT);
+    }
+  }
+
+  private BigDecimal calculateTotalPrice(List<PurchaseProduct> purchaseProducts) {
+    return purchaseProducts.stream()
+        .map(purchaseProduct -> purchaseProduct.getPrice()
+            .multiply(BigDecimal.valueOf(purchaseProduct.getQuantity())))
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 
 }
