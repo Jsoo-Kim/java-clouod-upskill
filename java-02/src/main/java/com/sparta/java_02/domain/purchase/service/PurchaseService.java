@@ -3,6 +3,8 @@ package com.sparta.java_02.domain.purchase.service;
 import com.sparta.java_02.common.enums.PurchaseStatus;
 import com.sparta.java_02.common.exception.ServiceException;
 import com.sparta.java_02.common.exception.ServiceExceptionCode;
+import com.sparta.java_02.domain.purchase.dto.PurchaseCancelRequest;
+import com.sparta.java_02.domain.purchase.dto.PurchaseCancelResponse;
 import com.sparta.java_02.domain.purchase.dto.PurchaseRequest;
 import com.sparta.java_02.domain.purchase.entity.Purchase;
 import com.sparta.java_02.domain.purchase.repository.PurchaseRepository;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PurchaseService {
 
+  private final PurchaseCancelService cancelService;
   private final PurchaseProcessService purchaseProcessService;
 
   private final UserRepository userRepository;
@@ -41,6 +44,11 @@ public class PurchaseService {
     }
 
     purchase.setStatus(PurchaseStatus.CANCELED);
+  }
+
+  @Transactional
+  public PurchaseCancelResponse cancelPurchase(PurchaseCancelRequest request) {
+    return cancelService.cancel();
   }
 
 }
