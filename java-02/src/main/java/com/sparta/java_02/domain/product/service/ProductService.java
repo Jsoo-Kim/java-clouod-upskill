@@ -6,8 +6,6 @@ import com.sparta.java_02.domain.product.dto.ProductRequest;
 import com.sparta.java_02.domain.product.dto.ProductResponse;
 import com.sparta.java_02.domain.product.entity.Product;
 import com.sparta.java_02.domain.product.repository.ProductRepository;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +15,11 @@ public class ProductService {
 
   private final ProductRepository productRepository;
 
-  public List<ProductResponse> getAll() {
-    return new ArrayList<>();
-  }
+//  public List<ProductResponse> getAllProducts() {
+//    return productRepository.findAll().stream()
+//        .map((product) -> ProductResponse.builder()
+//            .build())
+//  }
 
   public ProductResponse getById(Long id) {
     Product product = productRepository.findById(id)

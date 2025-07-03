@@ -6,7 +6,6 @@ import com.sparta.java_02.domain.product.dto.ProductRequest;
 import com.sparta.java_02.domain.product.dto.ProductResponse;
 import com.sparta.java_02.domain.product.service.ProductService;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,10 +24,10 @@ public class ProductControllerV2 {
   private final ProductService productService;
 
   // 전체 상품 조회
-  @GetMapping
-  public ApiResponse<List<ProductResponse>> getAll() {
-    return ApiResponse.success(productService.getAll());
-  }
+//  @GetMapping
+//  public ApiResponse<List<ProductResponse>> getAll() {
+//    return ApiResponse.success(productService.getAll());
+//  }
 
   // 단일 상품 조회
   @GetMapping("/{id}")
