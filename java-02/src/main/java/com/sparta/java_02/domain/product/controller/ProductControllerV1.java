@@ -28,7 +28,7 @@ public class ProductControllerV1 {
   // 전체 상품 조회
   @GetMapping
   public ResponseEntity<List<ProductResponse>> getAll() {
-    return ResponseEntity.ok(productService.getAll());
+    return ResponseEntity.ok(productService.getAllProducts());
   }
 
   // 단일 상품 조회
