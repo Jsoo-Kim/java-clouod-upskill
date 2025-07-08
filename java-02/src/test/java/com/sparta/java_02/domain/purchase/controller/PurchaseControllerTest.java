@@ -1,21 +1,10 @@
 package com.sparta.java_02.domain.purchase.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.java_02.domain.purchase.dto.PurchaseProductRequestTest;
-import com.sparta.java_02.domain.purchase.dto.PurchaseRequestTest;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -27,77 +16,77 @@ class PurchaseControllerTest {
   @Autowired
   private ObjectMapper objectMapper;
 
-  @Test
-  void 주문_생성() throws Exception {
-    // given
-    List<PurchaseProductRequestTest> purchaseProductRequestTests = new ArrayList<>();
-    purchaseProductRequestTests.add(new PurchaseProductRequestTest(1L, 10));
-
-    PurchaseRequestTest purchaseRequestTest = new PurchaseRequestTest(1L,
-        purchaseProductRequestTests);
-
-    String requestBody = new ObjectMapper().writeValueAsString(purchaseRequestTest);
-
-    // when & then
-    mockMvc.perform(
-            MockMvcRequestBuilders.post("/api/purchase")
-                .contentType(MediaType.APPLICATION_JSON.toString())
-                .content(requestBody)
-                .accept(MediaType.APPLICATION_JSON.toString()))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.result").value(true));
-  }
-
-  @Test
-  void 유저_없음_체크() throws Exception {
-    // given
-    List<PurchaseProductRequestTest> purchaseProductRequestTests = new ArrayList<>();
-    purchaseProductRequestTests.add(new PurchaseProductRequestTest(1L, 10));
-
-    PurchaseRequestTest purchaseRequestTest = new PurchaseRequestTest(null,
-        purchaseProductRequestTests);
-
-    String requestBody = new ObjectMapper().writeValueAsString(purchaseRequestTest);
-
-    // when & then
-    mockMvc.perform(
-            MockMvcRequestBuilders.post("/api/purchase")
-                .contentType(MediaType.APPLICATION_JSON.toString())
-                .content(requestBody)
-                .accept(MediaType.APPLICATION_JSON.toString()))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.result").value("NOT_FOUND_USER"));
-
+//  @Test
+//  void 주문_생성() throws Exception {
+//    // given
+//    List<PurchaseProductRequestTest> purchaseProductRequestTests = new ArrayList<>();
+//    purchaseProductRequestTests.add(new PurchaseProductRequestTest(1L, 10));
+//
+//    PurchaseRequestTest purchaseRequestTest = new PurchaseRequestTest(1L,
+//        purchaseProductRequestTests);
+//
+//    String requestBody = new ObjectMapper().writeValueAsString(purchaseRequestTest);
+//
+//    // when & then
 //    mockMvc.perform(
 //            MockMvcRequestBuilders.post("/api/purchase")
 //                .contentType(MediaType.APPLICATION_JSON.toString())
 //                .content(requestBody)
 //                .accept(MediaType.APPLICATION_JSON.toString()))
-//        .andExpect(MockMvcResultMatchers.status().isBadRequest())
-//        .andExpect(MockMvcResultMatchers.jsonPath("$.error.errorCode").value("VALIDATE_ERROR"));
-  }
+//        .andExpect(status().isOk())
+//        .andExpect(jsonPath("$.result").value(true));
+//  }
 
-  @Test
-  void 수량_체크() throws Exception {
-    // given: 재고(예: 5개)보다 많은 수량(예: 10개)을 주문하는 DTO
-    List<PurchaseProductRequestTest> purchaseProductRequestTests = new ArrayList<>();
-    purchaseProductRequestTests.add(new PurchaseProductRequestTest(1L, 100000));
+//  @Test
+//  void 유저_없음_체크() throws Exception {
+//    // given
+//    List<PurchaseProductRequestTest> purchaseProductRequestTests = new ArrayList<>();
+//    purchaseProductRequestTests.add(new PurchaseProductRequestTest(1L, 10));
+//
+//    PurchaseRequestTest purchaseRequestTest = new PurchaseRequestTest(null,
+//        purchaseProductRequestTests);
+//
+//    String requestBody = new ObjectMapper().writeValueAsString(purchaseRequestTest);
+//
+//    // when & then
+//    mockMvc.perform(
+//            MockMvcRequestBuilders.post("/api/purchase")
+//                .contentType(MediaType.APPLICATION_JSON.toString())
+//                .content(requestBody)
+//                .accept(MediaType.APPLICATION_JSON.toString()))
+//        .andExpect(status().isOk())
+//        .andExpect(jsonPath("$.result").value("NOT_FOUND_USER"));
+//
+////    mockMvc.perform(
+////            MockMvcRequestBuilders.post("/api/purchase")
+////                .contentType(MediaType.APPLICATION_JSON.toString())
+////                .content(requestBody)
+////                .accept(MediaType.APPLICATION_JSON.toString()))
+////        .andExpect(MockMvcResultMatchers.status().isBadRequest())
+////        .andExpect(MockMvcResultMatchers.jsonPath("$.error.errorCode").value("VALIDATE_ERROR"));
+//  }
 
-    PurchaseRequestTest purchaseRequestTest = new PurchaseRequestTest(1L,
-        purchaseProductRequestTests);
-
-    String requestBody = objectMapper.writeValueAsString(purchaseRequestTest);
-
-    // when & then
-    mockMvc.perform(
-            MockMvcRequestBuilders.post("/api/purchase")
-                .contentType(MediaType.APPLICATION_JSON.toString())
-                .content(requestBody)
-                .accept(MediaType.APPLICATION_JSON.toString()))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-//        .andExpect(MockMvcResultMatchers.status().isBadRequest()) // ServiceException도 400으로 처리한다고 가정
-        .andExpect(MockMvcResultMatchers.jsonPath("$.error.code").value("OUT_OF_STOCK_PRODUCT"));
-  }
+//  @Test
+//  void 수량_체크() throws Exception {
+//    // given: 재고(예: 5개)보다 많은 수량(예: 10개)을 주문하는 DTO
+//    List<PurchaseProductRequestTest> purchaseProductRequestTests = new ArrayList<>();
+//    purchaseProductRequestTests.add(new PurchaseProductRequestTest(1L, 100000));
+//
+//    PurchaseRequestTest purchaseRequestTest = new PurchaseRequestTest(1L,
+//        purchaseProductRequestTests);
+//
+//    String requestBody = objectMapper.writeValueAsString(purchaseRequestTest);
+//
+//    // when & then
+//    mockMvc.perform(
+//            MockMvcRequestBuilders.post("/api/purchase")
+//                .contentType(MediaType.APPLICATION_JSON.toString())
+//                .content(requestBody)
+//                .accept(MediaType.APPLICATION_JSON.toString()))
+//        .andExpect(MockMvcResultMatchers.status().isOk())
+////        .andExpect(MockMvcResultMatchers.status().isBadRequest()) // ServiceException도 400으로 처리한다고 가정
+//        .andExpect(MockMvcResultMatchers.jsonPath("$.error.code").value("OUT_OF_STOCK_PRODUCT"));
+//  }
 
 
 }

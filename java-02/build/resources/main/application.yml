@@ -2,6 +2,7 @@ spring:
   application:
     name: java-02
 
+
   # 데이터베이스 연결 설정
   datasource:
     # jdbc라는 프로토콜로 접속, localhost:3306으로 mysql로 접속하려는 데이터베이스는 spring_db
@@ -10,6 +11,7 @@ spring:
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+
   # JPA 및 Hibernate 설정
   jpa:
     hibernate: # jpa의 원형이라고 보면 됨! (이후에 설명할 예정)
@@ -17,11 +19,22 @@ spring:
       # none: 아무 작업도 하지 않음 (운영 환경 추천)  # 현업에서는 none 써야 함! create 절대 X
       # create: 기존 테이블 삭제 후 다시 생성
       # update: 변경된 부분만 반영
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate: # hibernate도 갖고 있는 MySQL을 쓰는 것
         # MySQL 8 버전에 맞는 Dialect(방언) 설정
         dialect: org.hibernate.dialect.MySQL8Dialect  # ORM으로 자동으로 만들어줄 SQL이 어떤 DB의 어떤 버전의 SQL인지 알아야 하기 때문에 설정
+
+
+  # Redis
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: # 비밀번호가 없다면 비워둡니다.
+      # timeout: 1s
+      # database: 0
+
 
   # 로깅 레벨 설정
   logging:
@@ -29,20 +42,24 @@ spring:
       # Hibernate가 실행하는 SQL 쿼리를 DEBUG 레벨로 로그에 출력
       org.hibernate.SQL: DEBUG
 
+
   flyway:
     enabled: false # Flyway 활성화
     # 마이그레이션 파일 위치 지정 (기본값) classpath는 resource 패키지를 가리킴! 이 경우 resource 패키지 하위의 db 디렉토리의 migration 디렉토리
     locations: classpath:db/migration
     baseline-on-migrate: false # 기존에 테이블이 있는 DB에 Flyway를 처음 적용할 때는 무조건 true!!
 
+
   hikari:
     maximum-pool-size: 10  # 최대 커넥션 개수
     connection-timeout: 30000 # 커넥션을 얻기 위해 대기하는 최대 시간 (ms)
     max-lifetime: 1800000 # 커넥션의 최대 수명 (ms)
 
+
 # 내장 웹 서버 설정
 server:
   port: 8080
+
 
 # Swagger UI 설정 (Springdoc)
 springdoc:

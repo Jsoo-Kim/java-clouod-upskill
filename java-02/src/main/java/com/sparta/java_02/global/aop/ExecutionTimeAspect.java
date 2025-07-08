@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class ExecutionTimeAspect {
 
   // 서울(한국) 타임존 상수
-  private static final ZoneId SEOUL_ZONE = ZoneId.of("Aisa/Seoul");
+  private static final ZoneId SEOUL_ZONE = ZoneId.of("Asia/Seoul");
   // 포맷팅
   private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(
       "yyyy-MM-dd HH:mm:ss.SSS");
