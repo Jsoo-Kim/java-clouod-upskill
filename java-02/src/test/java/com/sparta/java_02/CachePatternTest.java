@@ -1,6 +1,5 @@
 package com.sparta.java_02;
 
-import groovy.util.logging.Slf4j;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,10 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import redis.clients.jedis.Jedis;
 
-@Slf4j
+
 @SpringBootTest
 public class CachePatternTest {
-
 
   private static final Logger log = LoggerFactory.getLogger(CachePatternTest.class);
 
