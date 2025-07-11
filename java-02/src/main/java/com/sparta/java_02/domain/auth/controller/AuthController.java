@@ -3,6 +3,7 @@ package com.sparta.java_02.domain.auth.controller;
 import com.sparta.java_02.common.exception.ServiceException;
 import com.sparta.java_02.common.exception.ServiceExceptionCode;
 import com.sparta.java_02.common.response.ApiResponse;
+import com.sparta.java_02.domain.auth.dto.CustomUserDetails;
 import com.sparta.java_02.domain.auth.dto.LoginRequest;
 import com.sparta.java_02.domain.auth.dto.LoginResponse;
 import com.sparta.java_02.domain.auth.service.AuthService;
@@ -10,6 +11,8 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +33,7 @@ public class AuthController {
       @Valid @RequestBody LoginRequest loginRequest) {
     LoginResponse loginResponse = authService.login(loginRequest);
 
+    // 세션에 사용자 정보 저장 (시큐리티 인증 정보 세션과는 별개임)
     httpSession.setAttribute("userId", loginResponse.getUserId());
     httpSession.setAttribute("email", loginResponse.getEmail());
 
@@ -40,6 +44,23 @@ public class AuthController {
 
   @GetMapping("/status")
   public ApiResponse<LoginResponse> checkStatus(HttpSession httpSession) {
+    // 방법 1) Spring Security 인증 정보 확인 (필터에서 이미 검증됨)
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    if (authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(
+        authentication.getPrincipal())) {
+
+      // Spring Security 인증 정보에서 사용자 정보 추출
+      String email = authentication.getName();
+      if (authentication.getPrincipal() instanceof CustomUserDetails) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        return ApiResponse.success(
+            authService.getLoginResponse(userDetails.getUser().getId(), email)
+        );
+      }
+    }
+
+    // 방법 2) 세션에서 사용자 정보 확인 (필터에서 이미 검증됨)
     Long userId = (Long) httpSession.getAttribute("userId");
     String email = (String) httpSession.getAttribute("email");
 
@@ -53,7 +74,12 @@ public class AuthController {
 
   @GetMapping("/logout")
   public ApiResponse<Void> logout(HttpSession httpSession) {
+    // Spring Security 컨텍스트 클리어 (인증 정보 만료)
+    authService.logout();
+
+    // 세션 무효화
     httpSession.invalidate();
+
     return ApiResponse.success();
   }
 }

@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 public class CategoryResponse {
 
   Long id;
-ß
+
   String name;
 
   List<CategoryResponse> categories;

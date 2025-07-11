@@ -16,7 +16,7 @@ public class JedisUtil { // 공통 코드 (예: 파싱 작업)
 
   private final Jedis jedis;
   private final ObjectMapper objectMapper;
-  //  private final ObjectMapper objectMapper = new ObjectMapper(); // config에서 빈으로 등록 안 하면 주입 안 되니까 이렇게 해 줘야 함
+  //  private final ObjectMapperConfig objectMapper = new ObjectMapperConfig(); // config에서 빈으로 등록 안 하면 주입 안 되니까 이렇게 해 줘야 함
 
   public <T> void saveObject(String key, T object) {
     try {

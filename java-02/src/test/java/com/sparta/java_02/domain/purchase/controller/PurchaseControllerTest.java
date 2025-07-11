@@ -25,7 +25,7 @@ class PurchaseControllerTest {
 //    PurchaseRequestTest purchaseRequestTest = new PurchaseRequestTest(1L,
 //        purchaseProductRequestTests);
 //
-//    String requestBody = new ObjectMapper().writeValueAsString(purchaseRequestTest);
+//    String requestBody = new ObjectMapperConfig().writeValueAsString(purchaseRequestTest);
 //
 //    // when & then
 //    mockMvc.perform(
@@ -46,7 +46,7 @@ class PurchaseControllerTest {
 //    PurchaseRequestTest purchaseRequestTest = new PurchaseRequestTest(null,
 //        purchaseProductRequestTests);
 //
-//    String requestBody = new ObjectMapper().writeValueAsString(purchaseRequestTest);
+//    String requestBody = new ObjectMapperConfig().writeValueAsString(purchaseRequestTest);
 //
 //    // when & then
 //    mockMvc.perform(
