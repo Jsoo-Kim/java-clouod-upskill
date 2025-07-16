@@ -24,6 +24,12 @@ spring:
       hibernate: # hibernate도 갖고 있는 MySQL을 쓰는 것
         # MySQL 8 버전에 맞는 Dialect(방언) 설정
         dialect: org.hibernate.dialect.MySQL8Dialect  # ORM으로 자동으로 만들어줄 SQL이 어떤 DB의 어떤 버전의 SQL인지 알아야 하기 때문에 설정
+        format_sql: true
+        highlight_sql: true
+        jdbc:
+          batch_size: 500
+        order_inserts: true
+        order_updates: true
 
 
   # Redis
