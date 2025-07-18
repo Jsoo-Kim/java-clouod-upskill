@@ -71,3 +71,9 @@ server:
 springdoc:
   swagger-ui:
     enabled: true
+
+# MyBatis
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true  # 전역 설정 됨 (실무코드에 이 설정이 꺼져 있으면 키지 마라! 이미 수동으로 변환한다는 것! 바로 장애 남. 킬거면 아예 처음부터 켜 둘 것)
+  mapper-locations: classpath:mappers/*.xml
