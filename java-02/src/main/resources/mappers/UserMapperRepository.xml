@@ -5,21 +5,34 @@
 
 <mapper namespace="com.sparta.java_02.domain.user.repository.UserMapperRepository">
 
-  <select id="getUserById" parameterType="Long"
+  <select id="getUserById"
+    parameterType="com.sparta.java_02.domain.user.dto.UserSearchRequest"
     resultType="com.sparta.java_02.domain.user.dto.SearchUserDto">
     SELECT id,
-           name,
-           email,
-           password_hash,
-           created_at,
-           updated_at
+    name,
+    email,
+    password_hash,
+    created_at,
+    updated_at
     FROM user
-    WHERE id = #{id}
+    <!--    <where>-->
+    <!--      <if test="name != null">name = #{name}</if>-->
+    <!--      <if test="email != null">AND email = #{email}</if>-->
+    <!--    </where>-->
+    <where>
+      <choose>
+        <when test="name != null">name = #{name}</when>
+        <when test="email != null">email = #{email}</when>
+        <otherwise>1 = 1</otherwise>
+      </choose>
+    </where>
   </select>
 
   <insert id="insertUser" parameterType="com.sparta.java_02.domain.user.dto.UserDto">
-    INSERT INTO user
-    VALUES (#{name}, #{email}, #{passwordHash}, now(), now())
+    INSERT INTO user VALUES
+    <foreach collection="users" item="user" separator=",">
+      (#{user.name}, #{user.email}, #{user.passwordHash}, now(), now())
+    </foreach>
   </insert>
 
   <update id="updateUser" parameterType="com.sparta.java_02.domain.user.dto.UserDto">
@@ -33,5 +46,5 @@
     FROM user
     WHERE id = #{id}
   </delete>
-  
+
 </mapper>
