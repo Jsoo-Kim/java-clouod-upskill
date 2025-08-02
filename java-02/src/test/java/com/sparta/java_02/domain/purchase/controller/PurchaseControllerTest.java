@@ -11,10 +11,10 @@ import org.springframework.test.web.servlet.MockMvc;
 class PurchaseControllerTest {
 
   @Autowired
-  private MockMvc mockMvc;
+  private MockMvc mockMvc; // API 테스트를 위한 핵심 객체
 
   @Autowired
-  private ObjectMapper objectMapper;
+  private ObjectMapper objectMapper; // 객체를 JSON 문자열로 변환하기 위한 객체
 
 //  @Test
 //  void 주문_생성() throws Exception {
