@@ -19,8 +19,8 @@ public class PurchaseController {
   private final PurchaseService purchaseService;
 
   @PostMapping
-  public ApiResponse<Void> create(@Valid @RequestBody PurchaseRequest request) {
-    purchaseService.createPurchase(request);
+  public ApiResponse<Void> save(@Valid @RequestBody PurchaseRequest request) {
+    purchaseService.purchase(request);
     return ApiResponse.success();
   }
 

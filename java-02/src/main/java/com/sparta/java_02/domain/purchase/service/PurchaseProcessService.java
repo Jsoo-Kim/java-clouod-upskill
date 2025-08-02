@@ -1,5 +1,6 @@
 package com.sparta.java_02.domain.purchase.service;
 
+import com.sparta.java_02.common.enums.PurchaseStatus;
 import com.sparta.java_02.common.exception.ServiceException;
 import com.sparta.java_02.common.exception.ServiceExceptionCode;
 import com.sparta.java_02.domain.product.entity.Product;
@@ -39,23 +40,24 @@ public class PurchaseProcessService {
     return purchase;
   }
 
-  private Purchase createAndSavePurchase(User user) {
+  public Purchase createAndSavePurchase(User user) {
     return purchaseRepository.save(Purchase.builder()
         .user(user)
+        .totalPrice(BigDecimal.ZERO)
+        .status(PurchaseStatus.PENDING)
         .build());
   }
 
-  private List<PurchaseProduct> createAndProcessPurchaseProducts(
+  public List<PurchaseProduct> createAndProcessPurchaseProducts(
       List<PurchaseProductRequest> itemRequests, Purchase purchase) {
     List<PurchaseProduct> purchaseProducts = new ArrayList<>();
 
-    // 2. 구매 상품 처리 (재고 확인, 아이템 생성, 가격 계산)
     for (PurchaseProductRequest itemRequest : itemRequests) {
       Product product = productRepository.findById(itemRequest.getProductId()).orElseThrow();
 
       validateStock(itemRequest, product);
-
       product.reduceStock(itemRequest.getQuantity());
+
       PurchaseProduct purchaseProduct = PurchaseProduct.builder()
           .product(product)
           .purchase(purchase)
@@ -65,6 +67,7 @@ public class PurchaseProcessService {
 
       purchaseProducts.add(purchaseProduct);
     }
+
     purchaseProductRepository.saveAll(purchaseProducts);
     return purchaseProducts;
   }
@@ -75,7 +78,7 @@ public class PurchaseProcessService {
     }
   }
 
-  private BigDecimal calculateTotalPrice(List<PurchaseProduct> purchaseProducts) {
+  public BigDecimal calculateTotalPrice(List<PurchaseProduct> purchaseProducts) {
     return purchaseProducts.stream()
         .map(purchaseProduct -> purchaseProduct.getPrice()
             .multiply(BigDecimal.valueOf(purchaseProduct.getQuantity())))

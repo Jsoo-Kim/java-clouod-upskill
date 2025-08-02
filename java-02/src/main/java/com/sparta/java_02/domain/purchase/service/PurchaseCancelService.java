@@ -28,7 +28,7 @@ public class PurchaseCancelService {
   private final ProductRepository productRepository;
 
   @Transactional
-  public PurchaseCancelResponse cancel(Long purchaseId, Long userId) {
+  public PurchaseCancelResponse cancelPurchase(Long purchaseId, Long userId) {
     // 1. 구매 정보 조회 및 권한 확인
     Purchase purchase = purchaseRepository.findByIdAndUser_Id(purchaseId, userId)
         .orElseThrow(() -> new ServiceException(ServiceExceptionCode.NOT_FOUND_PURCHASE));
