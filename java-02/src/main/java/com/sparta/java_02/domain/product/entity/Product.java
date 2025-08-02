@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
@@ -63,6 +64,9 @@ public class Product {
   @Column(nullable = false)
   @UpdateTimestamp
   LocalDateTime updatedAt;
+
+  @Version
+  Integer version;
 
   @Builder
   public Product(
