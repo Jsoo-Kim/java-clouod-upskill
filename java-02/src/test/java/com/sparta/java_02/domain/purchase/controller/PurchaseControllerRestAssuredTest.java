@@ -33,15 +33,15 @@ class PurchaseControllerRestAssuredTest {
 //        """;
 //
 //    // when & then
-//    RestAssured.given().log().all()                 // (요청 로깅)
-//        .contentType(ContentType.JSON)            // 요청 헤더의 Content-Type 설정
-//        .body(requestBody)                        // 요청 Body 데이터 추가
+//    RestAssured.given().log().all()                // (요청 로깅)
+//        .contentType(ContentType.JSON)             // 요청 헤더의 Content-Type 설정
+//        .body(requestBody)                         // 요청 Body 데이터 추가
 //        .when()
 //        .post("/api/purchase")                     // POST 요청 실행
-//        .then().log().all()                         // (응답 로깅)
-//        .statusCode(201)                        // 응답 상태 코드가 201 Created 인지 검증
-//        .body("result", IsEqual.equalTo(true));          // 응답 Body의 'result' 필드 값이 true인지 검증
-////        .body("data.purchaseId", notNullValue()); // 'data.purchaseId' 필드가 null이 아닌지 검증
+//        .then().log().all()                        // (응답 로깅)
+//        .statusCode(201)                           // 응답 상태 코드가 201 Created 인지 검증
+//        .body("result", IsEqual.equalTo(true));    // 응답 Body의 'result' 필드 값이 true인지 검증
+////        .body("data.purchaseId", notNullValue());  // 'data.purchaseId' 필드가 null이 아닌지 검증
 //  }
 
 }

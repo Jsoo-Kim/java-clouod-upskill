@@ -6,27 +6,18 @@ public class PurchaseRequestTest {
 
   Long userId;
 
-  List<PurchaseProductRequestTest> purchaseItems;
+  private List<PurchaseProductRequestTest> products;
 
-  public PurchaseRequestTest(Long userId, List<PurchaseProductRequestTest> purchaseItems) {
+  public PurchaseRequestTest(Long userId, List<PurchaseProductRequestTest> products) {
     this.userId = userId;
-    this.purchaseItems = purchaseItems;
+    this.products = products;
   }
 
   public Long getUserId() {
     return userId;
   }
 
-  public List<PurchaseProductRequestTest> getPurchaseItems() {
-    return purchaseItems;
-  }
-
-  public void setUserId(Long userId) {
-    this.userId = userId;
-  }
-
-  public void setPurchaseItems(
-      List<PurchaseProductRequestTest> purchaseItems) {
-    this.purchaseItems = purchaseItems;
+  public List<PurchaseProductRequestTest> getProducts() {
+    return products;
   }
 }
