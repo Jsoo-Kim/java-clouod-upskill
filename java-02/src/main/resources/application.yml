@@ -19,7 +19,7 @@ spring:
       # none: 아무 작업도 하지 않음 (운영 환경 추천)  # 현업에서는 none 써야 함! create 절대 X
       # create: 기존 테이블 삭제 후 다시 생성
       # update: 변경된 부분만 반영
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate: # hibernate도 갖고 있는 MySQL을 쓰는 것
         # MySQL 8 버전에 맞는 Dialect(방언) 설정

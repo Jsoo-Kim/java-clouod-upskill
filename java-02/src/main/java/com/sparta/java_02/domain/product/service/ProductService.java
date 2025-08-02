@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class ProductService {
 
   private final ProductRepository productRepository;
 
+  @Transactional
   public List<ProductResponse> getAllProducts() {
     return productRepository.findAll().stream()
         .map(product -> ProductResponse.builder()
@@ -30,6 +32,7 @@ public class ProductService {
         .collect(Collectors.toList());
   }
 
+  @Transactional
   public ProductResponse getById(Long id) {
     Product product = productRepository.findById(id)
         .orElseThrow(() -> new ServiceException(ServiceExceptionCode.NOT_FOUND_PRODUCT));
