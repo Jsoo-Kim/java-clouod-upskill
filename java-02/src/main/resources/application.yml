@@ -82,3 +82,9 @@ mybatis:
 external:
   external-shop:
     url: http://localhost:3001  # 외부 API URL로 설정
+
+
+gemini:
+  api:
+    key: AIzaSyCmQC30h9z3IAFLQiELcba8nzmcfnfC0q8
+    url: https://generativelanguage.googleapis.com
