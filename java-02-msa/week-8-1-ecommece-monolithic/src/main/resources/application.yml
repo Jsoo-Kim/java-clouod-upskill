@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ecommerce-monolithic
+  
+  datasource:
+    url: jdbc:mysql://localhost:3306/ecommerce
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  security:
+    user:
+      name: admin
+      password: admin123
+
+logging:
+  level:
+    com.example.ecommerce: DEBUG

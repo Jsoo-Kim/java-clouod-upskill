@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  user-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: userdb
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - user-db-data:/var/lib/mysql
+    networks:
+      - user-network
+
+  user-api:
+    build: .
+    ports:
+      - "8081:8081"
+    depends_on:
+      - user-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://user-db:3306/userdb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
+    networks:
+      - user-network
+
+networks:
+  user-network:
+    driver: bridge
+
+volumes:
+  user-db-data:

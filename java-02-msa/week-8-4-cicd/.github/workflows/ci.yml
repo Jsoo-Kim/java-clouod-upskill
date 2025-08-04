@@ -1,0 +1,37 @@
+name: Web Server CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Pull Web Server Docker Image
+        run: |
+          docker pull httpd:latest
+
+      - name: Run Web Server Container
+        run: |
+          docker run -d -p 8080:80 --name webserver httpd:latest
+
+      - name: Wait for Web Server to Start
+        run: |
+          sleep 5
+
+      - name: Test Web Server Response
+        run: |
+          curl -I http://localhost:8080 | grep "200 OK"
+
+      - name: Stop and Remove Container
+        run: |
+          docker stop webserver && docker rm webserver
